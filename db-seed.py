@@ -48,7 +48,7 @@ class dbWrapper:
         for x in range(len(attr_list)):
             for y in range(len(attr_list[x])):
                 comm += ", {} int".format(attr_list[x][y].replace(' ', '_'))
-        comm += ";')"
+        comm += ");'"
         cur.execute(comm)    
         self.conn.commit()
         
