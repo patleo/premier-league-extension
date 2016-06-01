@@ -39,7 +39,7 @@ class dbWrapper:
         port=url.port
         )
     
-    def addPlayersTable(self, attr_list)
+    def addPlayersTable(self, attr_list):
         cur = self.conn.cursor()
         comm = "CREATE TABLE Players (Last_Name varchar(50), Full_Name varchar(50), URL varchar(50), Team varchar(50), Alt_Last varchar(50), Alt_Full varchar(50)"
         for x in range(len(attr_list)):
