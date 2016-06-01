@@ -4,6 +4,9 @@ import json
 import time
 import random
 import unicodedata
+import os
+import psycopg2
+import urlparse
 
 
 class Player:
