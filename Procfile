@@ -1,0 +1,1 @@
+seed: python db-seed.py
