@@ -145,7 +145,7 @@ section_list = ["clubsTabsAttacking", "clubsTabsDefending", "clubsTabsDisciplina
 section_attr = [["Goals", "Shots", "Pens Scored", "Assists", "Crosses", "Offsides"], ["Saves Made", "Own Goals", "Clean Sheets", "Blocks", "Clearances"], ["Fouls", "Cards"]]
 
 db = dbWrapper()
-db.addPlayersTable(section_attr)
+# db.addPlayersTable(section_attr)
 
 
 scrape_count = 0
@@ -198,7 +198,7 @@ except Exception as e:
     print soup.prettify()
         
 finally:
-    db.addPlayers(self, player_list)
+    db.addPlayers(player_list)
     db.close
     
     
