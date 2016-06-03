@@ -61,7 +61,7 @@ class dbWrapper:
             URLs.append(row)
         return URLs
     
-    def addPlayers(self, player_list):
+    def addPlayers(self, player_list, attr_list):
         cur = self.conn.cursor()
         comm = 'INSERT INTO Players (Last_Name, Full_Name, URL, Team, Alt_Last, Alt_Full'
         for x in range(len(attr_list)):
@@ -182,6 +182,8 @@ try:
                 print e
                 print "This player url failed {}".format(player.url)
                 failed_players.append(player.url)
+                print soup.prettify()
+                break
                 
                 
         scrape_count += 1
@@ -198,7 +200,7 @@ except Exception as e:
     print soup.prettify()
         
 finally:
-    db.addPlayers(player_list)
+    db.addPlayers(player_list, section_attr)
     db.close
     
     
