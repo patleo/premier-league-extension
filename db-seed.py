@@ -187,9 +187,9 @@ try:
         
         
         print player.full_name
-            for x in range(len(player_attr)):
-                for y in range(len(player_attr[x])):
-                    print "Stat Name: {}, Stat Data: {}".format(section_attr[x][y], player_attr[x][y])        
+        for x in range(len(player_attr)):
+            for y in range(len(player_attr[x])):
+                print "Stat Name: {}, Stat Data: {}".format(section_attr[x][y], player_attr[x][y])        
         
         scrape_count += 1
         print "Num players scraped {}".format(scrape_count)
