@@ -66,7 +66,7 @@ class dbWrapper:
         comm = 'INSERT INTO Players (Last_Name, Full_Name, URL, Team, Alt_Last, Alt_Full'
         for x in range(len(attr_list)):
             for y in range(len(attr_list[x])):
-                comm += ", {} int".format(attr_list[x][y].replace(' ', '_'))
+                comm += ", {}".format(attr_list[x][y].replace(' ', '_'))
         comm += ')\nVALUES '
         for player in player_list:
             if player.scraped:
@@ -156,7 +156,7 @@ try:
         url = 'http://www.premierleague.com/en-gb/players/profile.statistics.html/{}'.format(player.url)
         r = requests.get(url)
         while r.status_code != 200:
-            print "HTTP Error {}. Attempting url again.".format(r.status)    
+            print "HTTP Error {}. Attempting url again.".format(r.status_code)    
             r = requests.get(url)
         c = r.content
         soup = BeautifulSoup(c, "html.parser")
