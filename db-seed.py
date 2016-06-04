@@ -68,7 +68,7 @@ class dbWrapper:
             for y in range(len(attr_list[x])):
                 comm += ", {} int".format(attr_list[x][y].replace(' ', '_'))
         comm += ')\nVALUES '
-        for player in players_list:
+        for player in player_list:
             if player.scraped:
                 comm += '('
                 for x in range(len(player_list)):
@@ -154,6 +154,10 @@ try:
     for player in player_list:
         url = 'http://www.premierleague.com/en-gb/players/profile.statistics.html/{}'.format(player.url)
         r = requests.get(url)
+        if r.status == 500:
+            while r.status == 500:
+                print "HTTP 500 Code. Attempting url again."    
+                r = requests.get(url)
         c = r.content
         soup = BeautifulSoup(c, "html.parser")
         player_attr= [[0,0,0,0,0,0], [0,0,0,0,0], [0,0]]
@@ -174,10 +178,7 @@ try:
                                     player_attr[index][attr_index] = y.get_text()
                                     save_next_div = False
 
-                print player.full_name
-                for x in range(len(player_attr)):
-                    for y in range(len(player_attr[x])):
-                        print "Stat Name: {}, Stat Data: {}".format(section_attr[x][y], player_attr[x][y])
+
             except Exception as e:
                 print e
                 print "This player url failed {}".format(player.url)
@@ -185,7 +186,11 @@ try:
                 print soup.prettify()
                 break
                 
-                
+        print player.full_name
+            for x in range(len(player_attr)):
+                for y in range(len(player_attr[x])):
+                    print "Stat Name: {}, Stat Data: {}".format(section_attr[x][y], player_attr[x][y])        
+        
         scrape_count += 1
         print "Num players scraped {}".format(scrape_count)
         print "Num failed players {}".format(len(failed_players))
