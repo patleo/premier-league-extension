@@ -66,19 +66,23 @@ class dbWrapper:
         for player in player_list:
             print player.url
             if player.scraped:
-                comm = 'INSERT INTO Players (Last_Name, Full_Name, URL, Team, Alt_Last, Alt_Full'
-                for x in range(len(attr_list)):
-                    for y in range(len(attr_list[x])):
-                        comm += ", {}".format(attr_list[x][y].replace(' ', '_'))
-                comm += ')\nVALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',' % (player.last_name.replace("'", "\'"), player.full_name.replace("'", "\'"), player.url, player.team, player.alt_last.replace("'", "\'"), player.alt_full.replace("'", "\'"))
-                for x in range(len(player.player_attr)):
-                    for y in range(len(player.player_attr[x])):
-                        comm += str(player.player_attr[x][y])
-                        comm +=  ','
-                temp = comm.rsplit(',', 1)
-                comm = ');'.join(temp) 
-                print comm
-                cur.execute(comm)
+                # Generate 1D array of field names for the table replacing blanks with '_'
+                field_names = ['Last_Name', 'Full_Name', 'URL', 'Team', 'Alt_Last', 'Alt_Full']
+                for field in (field for row in attr_list for field in row):
+                    field_names.append(field.replace(' ', '_'))
+                # Generates 1D array of field values and proper # of %s and %d to insert them into the sql statement
+                field_values = [last_name, full_name, url, team, alt_last, alt_full]
+                field_values_template = ','.join(['%s'] *  len(field_values))
+                for field in (field for row in player.player_attr for field in row):
+                    field_values.append(field)
+                field_values_template += ','
+                field_values_template += ','.join(['%d'] *  (len(field_values) - 6))
+                # Pieces together sql statement and prepares it to be executed by insterting field_names and %s and %d
+                sql_statement = 'INSERT INTO Players ({0}) Values ({1});'.format(field_names, field_values_template)
+                sql_statement = sql_statement.replace('[', '').replace(']', '').replace("'", "")
+                # Prints sql_statement for review and executes it
+                print sql_statement
+                cur.execute(sql_statement, field_values)
         self.conn.commit()
     def closeDB(self):
         self.conn.close()
