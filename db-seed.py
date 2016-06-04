@@ -76,7 +76,7 @@ class dbWrapper:
                         comm +=  ','
                 comm.replace(',', "", (comm.count(',')-1))
                 comm += ');'            
-        cur.execute(comm)
+                cur.execute(comm)
         self.conn.commit()
     def closeDB(self):
         self.conn.close()
