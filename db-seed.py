@@ -75,10 +75,10 @@ class dbWrapper:
                     for y in range(len(player_list[x])):
                         comm += str(player_list[x][y])
                         comm +=  ','
-                comm.replace(',', "", (string.count(',')-1))
+                comm.replace(',', "", (comm.count(',')-1))
                 comm += '),'
                 
-        comm.replace(',', "", (string.count(',')-1))
+        comm.replace(',', "", (comm.count(',')-1))
         cur.execute(comm)
         self.conn.commit()
     def closeDB(self):
@@ -154,7 +154,7 @@ try:
     for player in player_list:
         url = 'http://www.premierleague.com/en-gb/players/profile.statistics.html/{}'.format(player.url)
         r = requests.get(url)
-        while r.status != 200:
+        while r.status_code != 200:
             print "HTTP Error {}. Attempting url again.".format(r.status)    
             r = requests.get(url)
         c = r.content
