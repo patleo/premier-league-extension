@@ -71,12 +71,10 @@ class dbWrapper:
                 for field in (field for row in attr_list for field in row):
                     field_names.append(field.replace(' ', '_'))
                 # Generates 1D array of field values and proper # of %s and %d to insert them into the sql statement
-                field_values = [last_name, full_name, url, team, alt_last, alt_full]
-                field_values_template = ','.join(['%s'] *  len(field_values))
+                field_values = [player.last_name, player.full_name, player.url, player.team, player.alt_last, player.alt_full]
                 for field in (field for row in player.player_attr for field in row):
                     field_values.append(field)
-                field_values_template += ','
-                field_values_template += ','.join(['%d'] *  (len(field_values) - 6))
+                field_values_template = ','.join(['%s'] * len(field_values))
                 # Pieces together sql statement and prepares it to be executed by insterting field_names and %s and %d
                 sql_statement = 'INSERT INTO Players ({0}) Values ({1});'.format(field_names, field_values_template)
                 sql_statement = sql_statement.replace('[', '').replace(']', '').replace("'", "")
