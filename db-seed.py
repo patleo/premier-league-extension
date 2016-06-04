@@ -154,10 +154,9 @@ try:
     for player in player_list:
         url = 'http://www.premierleague.com/en-gb/players/profile.statistics.html/{}'.format(player.url)
         r = requests.get(url)
-        if r.status == 500:
-            while r.status == 500:
-                print "HTTP 500 Code. Attempting url again."    
-                r = requests.get(url)
+        while r.status != 200:
+            print "HTTP Error {}. Attempting url again.".format(r.status)    
+            r = requests.get(url)
         c = r.content
         soup = BeautifulSoup(c, "html.parser")
         player_attr= [[0,0,0,0,0,0], [0,0,0,0,0], [0,0]]
