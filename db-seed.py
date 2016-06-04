@@ -75,8 +75,8 @@ class dbWrapper:
                     for y in range(len(player.player_attr[x])):
                         comm += str(player.player_attr[x][y])
                         comm +=  ','
-                comm.replace(',', "", (comm.count(',')-1))
-                comm += ');'
+                temp = comm.rsplit(',', 1)
+                comm = ');'.join(temp) 
                 print comm
                 cur.execute(comm)
         self.conn.commit()
