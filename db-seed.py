@@ -206,7 +206,7 @@ except Exception as e:
         
 finally:
     db.addPlayers(player_list, section_attr)
-    db.close
+    db.closeDB()
     
     
        
