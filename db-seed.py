@@ -64,6 +64,7 @@ class dbWrapper:
     def addPlayers(self, player_list, attr_list):
         cur = self.conn.cursor()
         for player in player_list:
+            print player.url
             if player.scraped:
                 comm = 'INSERT INTO Players (Last_Name, Full_Name, URL, Team, Alt_Last, Alt_Full'
                 for x in range(len(attr_list)):
@@ -75,7 +76,8 @@ class dbWrapper:
                         comm += str(player.player_attr[x][y])
                         comm +=  ','
                 comm.replace(',', "", (comm.count(',')-1))
-                comm += ');'            
+                comm += ');'
+                print comm
                 cur.execute(comm)
         self.conn.commit()
     def closeDB(self):
@@ -184,7 +186,6 @@ try:
                 print e
                 print "This player url failed {}".format(player.url)
                 failed_players.append(player.url)
-                print soup.prettify()
                 break
         
         
@@ -203,10 +204,12 @@ try:
 except Exception as e:
     print item
     print e
-    print r.status
+    print r.status_code
     print soup.prettify()
         
 finally:
+    for player in failed_players:
+        print player
     db.addPlayers(player_list, section_attr)
     db.closeDB()
     
