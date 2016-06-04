@@ -185,7 +185,8 @@ try:
                 failed_players.append(player.url)
                 print soup.prettify()
                 break
-                
+        
+        
         print player.full_name
             for x in range(len(player_attr)):
                 for y in range(len(player_attr[x])):
