@@ -100,7 +100,7 @@ for index in range(1, 9):
 
     for item in players:
         try:
-            if item['lastSeason']['season'] == '2015-2016' and item['activeInPremierLeague'] == 'True':
+            if item['lastSeason']['season'] == '2015-2016':
                 last_name = ''.join(item['lastName'])
                 full_name = ''.join(item['fullName'])
                 url = ''.join(item['cmsAlias'])
@@ -150,13 +150,15 @@ scrape_count = 0
 failed_players = []
 try:
     for player in player_list:
+        get_count = 0
         url = 'http://www.premierleague.com/en-gb/players/profile.statistics.html/{}'.format(player.url)
         r = requests.get(url)
-        while r.status_code != 200:
+        while r.status_code != 200 and get_count < 5:
             print "HTTP Error {}. Attempting url again.".format(r.status_code)
             n = (random.random() * random.randint(1, 3) ) + 6
             time.sleep(n)
             r = requests.get(url)
+            get_count += 1
         c = r.content
         soup = BeautifulSoup(c, "html.parser")
         player_attr= [[0,0,0,0,0,0], [0,0,0,0,0], [0,0]]
