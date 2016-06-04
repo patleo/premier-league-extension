@@ -94,8 +94,9 @@ player_list = []
 for index in range(1, 9):
     url = ('http://www.premierleague.com/ajax/player/index/BY_CLUB/null/null/null/null/null/ALL/2015-2016/null/null/100/4/2/2/{}/null.json').format(index)
     r = requests.get(url)
-    if r.status_code != 200:
-        break
+    while r.status_code != 200:
+        print "HTTP Error {}. Attempting url again.".format(r.status)    
+        r = requests.get(url)        
     c = r.content
     table = json.loads(c)
     players = table["playerIndexSection"]["index"]["resultsList"]
