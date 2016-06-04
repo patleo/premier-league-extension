@@ -70,7 +70,7 @@ class dbWrapper:
                 for x in range(len(attr_list)):
                     for y in range(len(attr_list[x])):
                         comm += ", {}".format(attr_list[x][y].replace(' ', '_'))
-                comm += ')\nVALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',' % (player.last_name, player.full_name, player.url, player.team, player.alt_last, player.alt_full)
+                comm += ')\nVALUES (\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',' % (player.last_name.replace("'", "\'"), player.full_name.replace("'", "\'"), player.url, player.team, player.alt_last.replace("'", "\'"), player.alt_full.replace("'", "\'"))
                 for x in range(len(player.player_attr)):
                     for y in range(len(player.player_attr[x])):
                         comm += str(player.player_attr[x][y])
