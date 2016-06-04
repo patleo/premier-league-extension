@@ -190,6 +190,8 @@ try:
         
         
         print player.full_name
+        if player.url not in failed_players:
+            player.addStats(player_attr)
         for x in range(len(player_attr)):
             for y in range(len(player_attr[x])):
                 print "Stat Name: {}, Stat Data: {}".format(section_attr[x][y], player_attr[x][y])        
