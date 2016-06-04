@@ -63,22 +63,19 @@ class dbWrapper:
     
     def addPlayers(self, player_list, attr_list):
         cur = self.conn.cursor()
-        comm = 'INSERT INTO Players (Last_Name, Full_Name, URL, Team, Alt_Last, Alt_Full'
-        for x in range(len(attr_list)):
-            for y in range(len(attr_list[x])):
-                comm += ", {}".format(attr_list[x][y].replace(' ', '_'))
-        comm += ')\nVALUES '
         for player in player_list:
             if player.scraped:
-                comm += '('
-                for x in range(len(player_list)):
-                    for y in range(len(player_list[x])):
-                        comm += str(player_list[x][y])
+                comm = 'INSERT INTO Players (Last_Name, Full_Name, URL, Team, Alt_Last, Alt_Full'
+                for x in range(len(attr_list)):
+                    for y in range(len(attr_list[x])):
+                        comm += ", {}".format(attr_list[x][y].replace(' ', '_'))
+                comm += ')\nVALUES ('
+                for x in range(len(player.player_attr)):
+                    for y in range(len(player.player_attr[x])):
+                        comm += str(player.player_attr[x][y])
                         comm +=  ','
                 comm.replace(',', "", (comm.count(',')-1))
-                comm += '),'
-                
-        comm.replace(',', "", (comm.count(',')-1))
+                comm += ');'            
         cur.execute(comm)
         self.conn.commit()
     def closeDB(self):
@@ -103,7 +100,7 @@ for index in range(1, 9):
 
     for item in players:
         try:
-            if item['lastSeason']['season'] == '2015-2016':
+            if item['lastSeason']['season'] == '2015-2016' and item['activeInPremierLeague'] == 'True':
                 last_name = ''.join(item['lastName'])
                 full_name = ''.join(item['fullName'])
                 url = ''.join(item['cmsAlias'])
@@ -156,7 +153,9 @@ try:
         url = 'http://www.premierleague.com/en-gb/players/profile.statistics.html/{}'.format(player.url)
         r = requests.get(url)
         while r.status_code != 200:
-            print "HTTP Error {}. Attempting url again.".format(r.status_code)    
+            print "HTTP Error {}. Attempting url again.".format(r.status_code)
+            n = (random.random() * random.randint(1, 3) ) + 6
+            time.sleep(n)
             r = requests.get(url)
         c = r.content
         soup = BeautifulSoup(c, "html.parser")
